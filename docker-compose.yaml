@@ -1,8 +1,19 @@
 version: '3.7'
 services:
+  reveries:
+    build: 
+      context: .
+      dockerfile: dev.dockerfile
+    container_name: reveries_app
+    env_file: .env
+    ports:
+      - "3000:3000"
+    volumes:
+      - .env:/usr/src/app/.env
+      - /usr/src/app/node_modules
   db:
     image: "postgres:12"
-    container_name: database
+    container_name: reveries_db
     environment:
       POSTGRES_USER: ${DB_USER}
       POSTGRES_DB: ${DB_DATABASE}
