@@ -1,10 +1,12 @@
 import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { QueryFailedError, Repository } from 'typeorm';
+import { Repository } from 'typeorm';
 import { User } from '../entity/user.entity';
 import { EntityNotFoundError } from 'typeorm/error/EntityNotFoundError'
 import { CreateUserRequest } from '../request/createUserRequest';
 import { CreateUserResponse } from '../response/createUserResponse';
+import { UpdateUserPasswordRequest } from '../request/updateUserPasswordRequest';
+import { UpdateUserPasswordResponse } from '../response/updateUserPasswordResponse';
 
 
 @Injectable()
@@ -16,7 +18,7 @@ export class UsersService {
   ) {
   }
 
-  async findUser(userName: String): Promise<User> {
+  async findUser(userName: string): Promise<User> {
     try {
       const user: User = await this.usersRepository.findOneOrFail({
         where: {
@@ -47,7 +49,18 @@ export class UsersService {
     catch (error) {
       throw new BadRequestException(`Could not create user with username ${user.username}: ${error.message}`);
     }
+  }
 
+  async updateUserPassword(updateUserPasswordRequest: UpdateUserPasswordRequest): Promise<any> {
+    const user: User = await this.findUser(updateUserPasswordRequest.username);
+
+    //TODO implement encryption for passwords
+    if (user.password === updateUserPasswordRequest.oldPassword) {
+      user.password = updateUserPasswordRequest.newPassword;
+      const updateUserPasswordResponse: UpdateUserPasswordResponse = new UpdateUserPasswordResponse(await this.usersRepository.save(user));
+      return updateUserPasswordResponse;
+    }
+    throw new BadRequestException(`current password for user ${user.username} does not match`);
   }
 
   async remove(id: string): Promise<void> {

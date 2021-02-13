@@ -19,6 +19,4 @@ export class CreateUserRequest {
     })
     @IsNotEmpty()
     password: string;
-
-    
 }

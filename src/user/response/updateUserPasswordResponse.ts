@@ -1,6 +1,6 @@
 import { User } from "../entity/user.entity";
 
-export class CreateUserResponse{
+export class UpdateUserPasswordResponse{
     private username: string;
     private id: string;
 
