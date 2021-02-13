@@ -4,7 +4,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { Connection } from 'typeorm';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { UsersModule } from './users/module/users.module';
+import { UsersModule } from './user/module/user.module';
 import { AuthModule } from './auth/module/auth.module';
 import { AuthController } from './auth/controller/auth.controller';
 
@@ -18,7 +18,7 @@ import { AuthController } from './auth/controller/auth.controller';
       password: process.env.DB_PASSWORD,
       database: process.env.DB_DATABASE,
       entities: ["dist/**/*.entity{.ts,.js}"],
-      synchronize: true,
+      synchronize: false,
     }),],
   controllers: [AppController, AuthController],
   providers: [AppService],

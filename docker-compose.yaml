@@ -11,12 +11,3 @@ services:
     volumes:
       - .env:/usr/src/app/.env
       - /usr/src/app/node_modules
-  db:
-    image: "postgres:12"
-    container_name: reveries_db
-    environment:
-      POSTGRES_USER: ${DB_USER}
-      POSTGRES_DB: ${DB_DATABASE}
-      POSTGRES_PASSWORD: ${DB_PASSWORD}
-    ports:
-      - "5432:${DB_PORT}"
