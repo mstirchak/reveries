@@ -11,8 +11,6 @@ import { UsersService } from '../service/user.service';
 export class UsersController {
     constructor(private readonly userService: UsersService) { }
 
-    @UseGuards(JwtAuthGuard)
-    @ApiBearerAuth()
     @Post('/create')
     async createUser(@Body() createUserRequest: CreateUserRequest): Promise<CreateUserResponse> {
         const createUserResponse: CreateUserResponse = await this.userService.createUser(createUserRequest);
